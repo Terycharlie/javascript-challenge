@@ -1,28 +1,25 @@
 // from data.js
 var tableData = data;
 
-// YOUR CODE HERE!
 // write code that appends a table to your web page and then adds new rows of data for each UFO sighting.
 
 // from data.js -> variable where the data is located
 var tableData = data;
 
-// Get a reference to the table body
+// refer to the table body
 var tbody = d3.select("tbody");
-
-// Console.log the weather data from data.js
 console.log(tableData);
 
 // Set the reference to the table body, button and form
 var tbody = d3.select("tbody");
-var button = d3.select("button");
+var button = d3.select("#filter-btn");
 var form = d3.select("form");
 
-// Create event handlers 
+// event handlers 
 button.on("click", runEnter);
 form.on("submit",runEnter);
 
-// Use d3 to automatically populate tableData
+//populate tableData using D3
 function defaultPopulate(tableData) {
     tableData.forEach((ufoSighting) => {
         var row = tbody.append("tr");
@@ -42,10 +39,10 @@ function runEnter() {
 
     // Select the input element and get the raw HTML node
     var inputDate = d3.select("#datetime").property("value");
-    var inputCity = d3.select("#city").property("value").toLowerCase();
-    var inputState = d3.select("#state").property("value").toLowerCase();
-    var inputCountry = d3.select("#country").property("value").toLowerCase();
-    var inputShape = d3.select("#shape").property("value").toLowerCase();
+    var inputCity = d3.select("#city").property("value");
+    var inputState = d3.select("#state").property("value");
+    var inputCountry = d3.select("#country").property("value");
+    var inputShape = d3.select("#shape").property("value");
 
     // Store the input conditions that have values into an array and set up conditional statement
     var inputArray = [["datetime",inputDate], ["city", inputCity], ["state", inputState], ["country", inputCountry], ["shape", inputShape]];
