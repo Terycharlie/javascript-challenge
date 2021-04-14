@@ -64,11 +64,5 @@ function runEnter() {
             cell.text(value);
         });
     });
-    // If no value entered in any area, autopopulate the entire data table
-    if (searchArray.length === 0) {
-        defaultPopulate(tableData);
-    } else if (filteredData.length === 0) {
-        // If no data found, display "No UFO Sighting found. Try again!"
-        tbody.append("tr").text("No UFO Sighting found. Try again!");
-    };
+ 
 };
