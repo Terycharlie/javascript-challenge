@@ -3,66 +3,79 @@ var tableData = data;
 
 // write code that appends a table to your web page and then adds new rows of data for each UFO sighting.
 
-// from data.js -> variable where the data is located
-var tableData = data;
-
-// refer to the table body
 var tbody = d3.select("tbody");
-console.log(tableData);
 
-// Set the reference to the table body, button and form
-var tbody = d3.select("tbody");
-var button = d3.select("#filter-btn");
-var form = d3.select("form");
 
-// event handlers 
-button.on("click", runEnter);
-form.on("submit",runEnter);
-
-//populate tableData using D3
-function defaultPopulate(tableData) {
-    tableData.forEach((ufoSighting) => {
-        var row = tbody.append("tr");
-        Object.entries(ufoSighting).forEach(([key, value]) => {
-            var cell = row.append("td");
-            cell.text(value);
-        });
+function buildTable(arrayData){
+arrayData.forEach((ufoReport) => {
+    var row = tbody.append("tr");
+    Object.entries(ufoReport).forEach(([key, value]) => {
+        var cell = row.append("td");
+        cell.text(value);
     });
-};
+  });
+}
 
-defaultPopulate(tableData);
+var button = d3.select("#filter-btn");
 
-// Complete the event handler function for the form
-function runEnter() {
-    // Prevent the page from refreshing
+button.on("click", filterTable);
+
+function filterTable() {
+ // Prevent the page from refreshing
     d3.event.preventDefault();
 
-    // Select the input element and get the raw HTML node
-    var inputDate = d3.select("#datetime").property("value");
-    var inputCity = d3.select("#city").property("value");
-    var inputState = d3.select("#state").property("value");
-    var inputCountry = d3.select("#country").property("value");
-    var inputShape = d3.select("#shape").property("value");
+// Select the input element
+    var inputTime = d3.select("#datetime").property("value");
+    var inputCity = d3.select("#city").property("value").toLowerCase();
+    var inputState = d3.select("#state").property("value").toLowerCase();
+    var inputCountry = d3.select("#country").property("value").toLowerCase();
+    var inputShape = d3.select("#shape").property("value").toLowerCase();
 
-    // Store the input conditions that have values into an array and set up conditional statement
-    var inputArray = [["datetime",inputDate], ["city", inputCity], ["state", inputState], ["country", inputCountry], ["shape", inputShape]];
-    var searchArray = inputArray.filter(inputItem => inputItem[1] !== "");
-    var filterCondition = searchArray.map(searchItem => "ufoSighting." + searchItem[0] + "===" + "'" + searchItem[1] + "'").join("&&")
-  
-    // Filter the data by input conditions
-    var filteredData = tableData.filter(ufoSighting => eval(filterCondition));
-    console.log(filteredData);
-    
-    // Reset the previous filtered data
-    tbody.html("");
-    
-    // Display filtered data
-    filteredData.forEach((ufoSighting) => {
-        var row = tbody.append("tr");
-        Object.entries(ufoSighting).forEach(([key, value]) => {
-            var cell = row.append("td");
-            cell.text(value);
-        });
+    var filters = {};
+
+    if (inputTime){
+
+        filters["datetime"]=inputTime
+    } 
+    else {
+        delete filters["datetime"]
+    }
+    if (inputCity){
+
+        filters["city"]=inputCity
+    }
+    else {
+        delete filters["city"]
+    }
+    if (inputState){
+        filters["state"]=inputState
+    }
+    else {
+        delete filters["state"]
+    }
+    if (inputCountry){
+
+        filters["country"]=inputCountry
+    }
+    else {
+        delete filters["country"]
+    }
+    if (inputShape){
+        filters["shape"]=inputShape
+    }
+    else {
+        delete filters["shape"]
+    };
+    Object.entries(filters).forEach(([key, value]) => {
+
+        filteredData = tableData.filter(ufo => ufo[key] === value); 
     });
- 
-};
+        
+
+
+tbody.html("")
+    buildTable(filteredData);
+}
+
+
+buildTable(tableData);
