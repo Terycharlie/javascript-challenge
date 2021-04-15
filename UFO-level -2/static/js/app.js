@@ -22,13 +22,9 @@ arrayData.forEach((ufoSighting) => {
 }
 
 var button = d3.select("#filter-btn");
-var form = d3.select("form");
 
-// Create event handlers
 button.on("click", filterTable);
-form.on("submit", filterTable);
 
-// run the event handler function
 function filterTable() {
  // Prevent the page from refreshing
     d3.event.preventDefault();
@@ -86,5 +82,6 @@ function filterTable() {
 tbody.html("")
     buildTable(filteredData);
 }
+
 
 buildTable(tableData);
